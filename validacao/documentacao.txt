@@ -1,0 +1,123 @@
+########################## INICIANDO PROJETO VALIDACAO ##########################
+
+Criando o Projeto:
+>cd C:\xampp\htdocs\laravel\
+>composer create-project --prefer-dist "laravel/laravel" validacao
+>cd C:\xampp\htdocs\laravel\validacao
+
+instalando BootStrap:
+>cd C:\xampp\htdocs\laravel\validacao
+>composer require laravel/ui
+>npm install
+>npm run dev
+>php artisan ui bootstrap
+>npm install
+>npm run dev
+
+para o css presetado não me atrapalhar, vou à /resources/sass/_variables.css e marco o seguinte bloco como comentário:
+//      // Body
+//      $body-bg: #f8fafc;
+//      
+//      // Typography
+//      $font-family-sans-serif: 'Nunito', sans-serif;
+//      $font-size-base: 0.9rem;
+//      $line-height-base: 1.6;
+
+crio o blade /resources/views/clientes.blade.php e o /resources/views/novocliente.blade.php e já faço um rápido desenvolvimento dela
+
+adiciono a rota '/novocliente' em /routes/web.php e testo se está funcionando em localhost:8000/novocliente
+
+Estando tudo certo lá, crio meu formulário de dados do cliente em /resources/views/novocliente.blade.php 
+
+Crio um novo modelo com o comando:
+>php artisan make:model Cliente -m 
+
+Em seguida, crio o controlador
+>php artisan make:controller ClienteControlador --resource
+(--resource serve para preencher os meus métodos de forma que irei usar)
+
+Apago as migrações create_users & create_failed_jobs em /database/migrations
+
+edito a migração create_clientes na sessão up()
+
+Agora edito o arquivo .env (que não está dentro de nenhuma pasta) nas seguintes linhas:
+
+DB_DATABASE=laravel_produtos  //aqui é o nome do database que vou usar
+DB_USERNAME=root              //aqui é meu usuário do mysql
+DB_PASSWORD=                  //aqui é minha senha do mysql
+
+Em seguida, executo o comando:
+> php artisan migrate:fresh
+
+Vou até /routes/web.php e removo o retorno da minha view /novocliente, pois vou colocá-la no meu /app/Http/Controllers/ClienteControlador.php na sessão create()
+
+Insiro na sessão create() do ClienteControlador a linha:
+return view('novocliente');
+
+E então volto na rota /novocliente em /routes/web.php e direciono-a para a sessão create() no ClienteControlador.php; Além disso, crio também a rota Index, no mesmo arquivo
+
+Indico meu model no ClienteControlador com a linha:
+use App\Cliente;
+
+Desenvolvo o método index(), passando o seguinte código:
+//passando array de todos os clientes para a página clientes.blade.php
+$clientes = Clientes::all();
+//retornando view de clientes
+return view('clientes', compact('clientes'));
+
+copio todo o código da página /resources/views/novocliente.blade.php e colo em clientes.blade.php, removendo a parte do formulário e adicionando a parte da tabela (vou fazer a mercação das sessões que eu alterei)
+
+como eu alterei as variáveis de sessão, preciso finalizar e executar novamente o comando:
+> php artisan serve
+
+Agora eu testo pra ver se tá funcionando corretamente minha tabela, farei isso pelo Tinker, só vou escrever os comandos que usarei aqui:
+
+> php artisan tinker
+//adicionando primeiro cliente
+> $cliente = new App\Cliente
+> $cliente->nome = "Roberto"
+> $cliente->idade = 20
+> $cliente->endereco = "Av Brasil"
+> $cliente->email = "roberto@gmail"
+> $cliente->save()
+
+//adicionando segundo cliente
+> $cliente = new App\Cliente
+> $cliente->nome = "Joao da Silva"
+> $cliente->idade = 37
+> $cliente->endereco = "Rua da Liberdade"
+> $cliente->email = "joao.silva@email.com"
+> $cliente->save()
+
+//adicionando terceiro cliente
+> $cliente = new App\Cliente
+> $cliente->nome = "Gabriel Santos"
+> $cliente->idade = 18
+> $cliente->endereco = "Rua Musical"
+> $cliente->email = "gabriel.santos@email.com"
+> $cliente->save()
+
+Beleza, adicionei 3 clientes, consegui visualizar no phpMyAdmin e na minha tabela de clientes (que é meu index), agora vou lá em web.php pra desenvolver minha rota de POST para a página /clientes, que vai redirecionar para a método store() do ClienteControlador.php; Logo então, já desenvolvo meu método store(), fazendo a inserção de todos os dados recolhidos (nome, idade, endereço e email).
+
+o próximo passo é fazer o tratamento de erros em caso de algum campo ser null.
+
+[VALIDANDO CAMPOS NULOS]
+
+Vou ao ClienteControlador.php e adiciono a função validate() ao método restore()
+[EXPLICAÇÃO]: Aplicando a função validate() à um campo, faz com que, se aquele campo não for preenchido corretamente, a página retorna um array chamado $errors com todos os erros de preenchimento naquela página. Usarei isso para efetuar a validacao de todos os campos.
+
+Depois, volto em novocliente.blade.php e adiciono o bloco TRATAMENTO DE ERRO depois do formulário para retornar os campos que estão vazios.
+
+Aí então retorno ao meu ClienteControlador.php pra efetuar outros tipos de validação. Para mais informações:
+https://laravel.com/docs/7.x
+OBS: todos os exemplos de aplicação dessas validações estão no arquivo ClienteControlador.php, no método store();
+
+VALIDAÇÕES:
+Caracteres mínimos: 'required|min:*num_min*'
+Caracteres máximos: 'required|max:*num_max*'
+Campo que não pode ter cadastro repetido(baseado no BD): 'required|unique:*nome_tabela*'
+Campo de E-mail: 'required|email'
+
+[CUSTOMIZANDO MENSAGENS DE ERRO]
+
+A estruturação da customização de uma mensagem acontece da seguinte forma:

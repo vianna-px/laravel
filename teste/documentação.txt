@@ -1,0 +1,250 @@
+Criar View:
+resources/views
+
+Criar layout:
+resources/views/layouts
+
+Criar rota:
+/routes
+
+
+#########################################################[ MIGRAÇÕES ]#########################################################
+
+Estabilizar conexão com DB:
+abrir /.env e alterar as variáveis de ambiente na parte de DB
+
+Criar migração:
+>php artisan make:migration *comando_desejado*
+Ou, para já criar uma tabela, usar o comando >php artisan make:migration *comando_desejado* --create=nome_da_tabela
+migrações ficam armazenadas em /database/migrations
+Exemplo: >php artisan make:migration create_departments --create=departments
+
+Fazer migração:
+>php artisan migrate
+
+Rollback na migração:
+>php artisan migrate:rollback
+
+Checar todas as migrações criadas:
+>php artisan migrate:status
+
+Desfazer todos os migrations e refazer:
+>php artisan migrate:refresh
+
+Dar Rollback em tudo [CUIDADO AO USAR, É BOM SABER O QUE ESTÁ FAZENDO]:
+>php artisan migrate:reset
+
+Dar Drop em tudo e recriar tudo de novo [CUIDADO AO USAR, É BOM SABER O QUE ESTÁ FAZENDO]:
+>php artisan migrate:fresh
+
+Criar novo campo em tabelas:
+>php artisan make:migration *descrição_rapida_do_item*
+Exemplo: >php artisan make:migration add_brands_to_products
+
+Exemplos de Criação de tabelas e constraints:
+/database/migrations/2020_03_21_192740_create_products
+/database/migrations/2020_03_21_195858_create_brands
+/database/migrations/2020_03_21_225036_add_brands_to_products
+/database/migrations/2020_03_22_164142_create_departments
+/database/migrations/2020_03_22_164426_create_product_department
+
+
+
+Mais informações: 
+https://laravel.com/docs/5.8/migrations
+
+###############################################################################################################################
+
+###########################################################[ MODEL ]###########################################################
+
+OBS: Models ficam em /app
+
+AQUI EU VOU USAR O MODEL "BRAND" PRA EXEPLIFICAR
+
+Criando um Model:
+>php artisan make:model *modeloDesejado*
+Exemplo: >php artisan make:model Brand
+
+Abrir Tinker:
+>php artisan tinker
+
+Usando o Tinker:
+Entrando na pasta de uso: 
+>use \App\Brand;
+
+listando todos os Brands:
+Brand::all()
+
+Criar instância do meu modelo:
+$brand = new Brand;
+
+Dando nome ao Brand:
+>$brand->*nome_do_campo* = "*valor*"
+Exemplo: >$brand->name = "Samsung"
+
+Salvando:
+$brand->save()
+
+Para criar vários campos em uma única linha, vou ao /app/Brand e crio um campo protegido lá com os campos que quero criar;
+
+em seguida, quito o Tinker e entro novamente, na pasta \App\Brand
+
+para criar multicampos em um linha, digito:
+Entrando na pasta de uso: >use \App\Brand;
+>$brand = Brand::create(["*campos*"=>"*valores*"]);
+Exemplo: >$brand = Brand::create(["name"=>"Acer"]);
+
+Retornar ID específico no Tinker:
+>Brand::find(*id*)
+Exemplo: >Brand::find(1)
+Grupal: >Brand::find([1,2])
+
+Consultar por campo específico (não precisa ser o campo ID) para retornar para o DB(por exemplo):
+>Brand::where('*campo*', *valor*)
+>Brand::where('id', 1)
+
+Printar os valores da mesma opçao de cima:
+>Brand::where('*campo*', *valor*)->get()
+>Brand::where('id', 1)->get()
+>Brand::where('name', "LG")->get()
+
+Realizando operações desta forma:
+>Brand::where('id', '<', 1)->get()
+>Brand::where('id', '>', 3)->get()
+>Brand::where('id', '<>', 2)->get()
+
+Passando parâmetros de intervalo:
+>Brand::whereBetween('id', [3,7])->get()
+>Brand::whereNotBetween('id', [2,5])->get()
+>Brand::whereNotBetween('id', [2,5])->get()
+
+Condição negativa:
+>Brand::whereNotIn('id', [2,4, 7, 10])->get()
+
+Consultar por elemento em campo específico:
+Começa com "e": >Brand::where('name','like','e%')->get()
+Termina com "e": >Brand::where('name','like','%e')->get()
+Tem "e" no meio: >Brand::where('name','like','%e%')->get()
+
+Usando variáveis pra isso:
+$name="e";
+>Brand::where('name','like',"%$name%")->get()
+
+Comparar mais de um campo:
+>Brand::where('id','>',1)->where('name','LG')->get()
+OR: Brand::where('id','>',1)->orWhere('name','LG')->get()
+
+Agrupamento de Consultas:
+(ID > 1) && (ID < 4)
+>Brand::where('id','>',1)->where('id','<',4)->get()
+
+((ID > 1) && (ID < 4))
+Brand::where( function($query){ $query->where('id','>',1)->where('id','<',4); })->get()
+
+(((ID > 1) && (ID < 4)) && (NAME = 'LG' || NAME = 'APPLE'))
+Brand::where( function($query){ $query->where('id','>',1)->where('id','<',4); })->where( function($query) { $query->where('name','LG')->orWhere('name','Apple'); } )->get()
+
+Ordenando por campo:
+Crescente:
+Brand::orderBy('name')->get()
+
+Decrescente:
+Brand::orderBy('name','desc')->get()
+
+Ordenar em cima de condição:
+Brand::where('id','>',2)->orderBy('name')->get()
+Brand::where('id','>',2)->orderBy('name','desc')->get()
+
+########################################################[ COLLECTIONS ]########################################################
+
+Mais informações: 
+https://laravel.com/docs/5.8/collections
+
+Exibir primeiro item:
+>Brand::all()->first() 
+
+Exibir ultimo item:
+>Brand::all()->last() 
+
+Retornar lista reversa:
+>Brand::all()->reverse() 
+
+Retornar somente um determinado campo:
+>Brand::all()->pluck('name') 
+
+Plucks alternativos:
+>Brand::all()->pluck('name')->first()
+>Brand::all()->pluck('name')->last()
+>Brand::all()->pluck('name')->reverse() 
+>Brand::all()->pluck('name')->toArray
+>Brand::all()->pluck('name')->toJson
+
+Retornar item aleatório:
+>Brand::all()->random()
+
+Tirar a média:
+>Brand::all()->avg('id')
+
+Retornar máximo:
+>Brand::all()->max('id')
+
+Retornar mínimo:
+>Brand::all()->min('id')
+
+Somar tudo:
+>Brand::all()->sum('id')
+
+Agrupar collections: 
+aqui ele vai retornar grupos de 2 em 2 elementos
+>Brand::all()->chunk(2)
+
+###################################################[ ATUALIZANDO REGISTROS ]###################################################
+
+>$brand=Brand::find(2)
+
+Criando registro:
+>Brand::create(['name'=>'sony'])
+
+Preencher valor:
+$brand->fill(['name'=>'LG'])
+
+Atualizar valores:
+>Brand::where('id','>',3)->update(['name'=>'LG']);
+
+Apagar registros:
+>Brand::destroy(*ID_desejado*)
+# OU 
+>$brand = Brand::find(2)
+>$brand->delete()
+# Se o ID estiver envolvido num relacionamento, não conseguirei deletar desta forma
+
+Apagando via Query:
+Brand::where('id','>',3)->delete()
+
+Soft Delete (Apaga um registro, mas não permanentemente, como enviar um arquivo pra lixeira, ou só arquivar ele):
+Pra isso eu preciso fazer duas alterações, uma no migrations (/database/migrations/2020_03_21_195858_create_brands.php) e a outra no próprio Model (/app/Brand.php), lá eu vou explicar como fazer isso;
+# Esse recurso pode ser usado quando eu quiser apagar um registro, mas manter seu histórico
+
+Depois de fazer os procedimentos que expliquei nos arquivos acima, vou à pasta do projeto pelo CMD e digito:
+>php artisan migrate:fresh
+
+E, pra retornar uma lista completa com todos os ID's, inclusive com os deletados, eu digito o comando:
+>Brand::withTrashed()    //pra retornar um builder
+>Brand::withTrashed()->get   //pra retornar uma lista
+
+outras formas de usar:
+-Atribuindo a lista à variável
+>$brands = Brand::withTrashed()
+-pegando o id do item apagado (que foi o 0)
+>$brands[0]->trashed()
+-pegando somente os apagados
+>$brands = Brands::onlyTrashed()->get()
+-restaurar itens apagados:
+>$brands[0]->restore()
+-apagar completamente o registro 
+>$brands = Brand::all()
+>$brands[0]->forceDelete
+-outra alternativa
+>$brands = Brand::find(2)
+>$brand->forceDelete()
+
