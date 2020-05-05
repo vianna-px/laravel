@@ -24,20 +24,44 @@
                         <form action="/cliente" method="post">
                             @csrf
                             <div class="form-group">
-                                <label for="nome">Nome do Cliente</label>
-                                <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome">
+                                <label for="nome">Nome do Cliente</label>    <!--  Aqui embaixo eu tô setando pra alterar a estilização se houver erros -->
+                                <input type="text" name="nome" id="nome" class="form-control {{ $errors->has('nome') ? 'is-invalid' : '' }} " placeholder="Nome">
+                                <!-- Aqui embaixo eu tô falando pra ele retornar um aviso de campo inválido se estiver incorreto  -->
+                                @if ($errors->has('nome'))
+                                    <div class="invalid-feedback">
+                                        {{ $errors->first('nome') }}
+                                    </div>
+                                @endif
                             </div>
                             <div class="form-group">
-                                <label for="idade">Idade do Cliente</label>
-                                <input type="number" name="idade" id="idade" class="form-control" placeholder="Idade">
+                                <label for="idade">Idade do Cliente</label>   <!--  Aqui embaixo eu tô setando pra alterar a estilização se houver erros -->
+                                <input type="number" name="idade" id="idade" class="form-control {{ $errors->has('idade') ? 'is-invalid' : '' }}" placeholder="Idade">
+                                <!-- Aqui embaixo eu tô falando pra ele retornar um aviso de campo inválido se estiver incorreto  -->
+                                @if ($errors->has('idade'))
+                                    <div class="invalid-feedback">
+                                        {{ $errors->first('idade') }}
+                                    </div>
+                                @endif
                             </div>
                             <div class="form-group">
-                                <label for="endereco">Endereço do Cliente</label>
-                                <input type="text" name="endereco" id="endereco" class="form-control" placeholder="Endereço">
+                                <label for="endereco">Endereço do Cliente</label> <!--  Aqui embaixo eu tô setando pra alterar a estilização se houver erros -->
+                                <input type="text" name="endereco" id="endereco" class="form-control {{ $errors->has('endereco') ? 'is-invalid' : '' }}" placeholder="Endereço">
+                                <!-- Aqui embaixo eu tô falando pra ele retornar um aviso de campo inválido se estiver incorreto  -->
+                                @if ($errors->has('endereco'))
+                                    <div class="invalid-feedback">
+                                        {{ $errors->first('endereco') }}
+                                    </div>
+                                @endif
                             </div>
                             <div class="form-group">
                                 <label for="email">E-mail do Cliente</label>
-                                <input type="text" name="email" id="email" class="form-control" placeholder="E-Mail">
+                                <input type="text" name="email" id="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" placeholder="E-Mail">
+                                <!-- Aqui embaixo eu tô falando pra ele retornar um aviso de campo inválido se estiver incorreto  -->
+                                @if ($errors->has('email'))
+                                    <div class="invalid-feedback">
+                                        {{ $errors->first('email') }}
+                                    </div>
+                                @endif
                             </div>
                             <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
                             <button type="cancel" class="btn btn-danger btn-sm">Cancelar</button>
@@ -47,6 +71,7 @@
 
                     <!-- TRATAMENTO DE ERRO -->
                     <!-- criando card para retornar os campos em falta no formulário -->
+                    <!--
                     @if ($errors->any())
                         <div class="card-footer">
                             @foreach ($errors->all() as $error)
@@ -56,6 +81,7 @@
                             @endforeach
                         </div>
                     @endif
+                    -->
                     <!-- TRATAMENTO DE ERRO -->
                 </div>
             </div>

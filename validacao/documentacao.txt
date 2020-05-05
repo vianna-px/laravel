@@ -121,3 +121,54 @@ Campo de E-mail: 'required|email'
 [CUSTOMIZANDO MENSAGENS DE ERRO]
 
 A estruturação da customização de uma mensagem acontece da seguinte forma:
+Dentro do método store(), crio um array com as regras e as mensagens, lá dentro coloco o campo que é validado, a validação que é exigida e a mensagem que será retornada.
+Exemplo:
+
+$regras = [
+    'nome' => 'required',
+    'email' => 'required|email|unique:*nome_da_tabela_BD*'
+];
+
+$mensagens = [
+    'nome.required' => 'É necessário inserir um nome!',
+    'email.required' => 'É necessário inserir um E-Mail!',
+    'email.email' => 'É necessário inserir um E-Mail Válido!',
+    'email.unique' => 'Este email já está sendo ultilizado!'
+]
+
+$request->validate($regras, $mensagens);
+
+### OU EU POSSO FAZER DE FORMA MAIS DIRETA ###
+
+$request->validate([
+    'nome' => 'required',
+    'email' => 'required|email|unique:*nome_da_tabela_BD*'
+], [
+    'nome.required' => 'É necessário inserir um nome!',
+    'email.required' => 'É necessário inserir um E-Mail!',
+    'email.email' => 'É necessário inserir um E-Mail Válido!',
+    'email.unique' => 'Este email já está sendo ultilizado!'
+]);
+
+######################################################################
+
+eu também posso passar uma mensagem geral pra toda validação generalizada, usando ":attribute" para printar o campo em branco:
+
+$mensagens = [
+    'required' => 'O campo :attribute não pode estar em branco!'
+];
+
+[CUSUTOMIZAÇÃO DE MENSAGENS CAMPO-A-CAMPO]
+
+Agora, vou especificar campo à campo os meus erros gerados.
+(pra mais informações: https://getbootstrap.com/docs/4.4/components/forms/)
+
+Vou ao meu formulário em novocliente.blade.php e, em cada campo de preenchimnento "input", dentro do campo class="", adiciono a seguinte estrutura:
+{{ $errors->has('*attribute_name*') ? 'is-invalid' : '' }}
+
+E embaixo eu adiciono:
+@if ($errors->has('*attribute_name*'))
+    <div class="invalid-feedback">
+        {{ $errors->first('*attribute_name*') }}
+    </div>
+@endif

@@ -66,10 +66,32 @@ class ClienteControlador extends Controller
 
         //criando mensagens à serem retornadas
         $mensagens = [
-            'nome.required' => 'É necessário inserir um nome!'
+            ##### GENERALIZANDO VALIDAÇÕES #####
+            // generalizando a validação 'required'
+            'required' => 'O campo :attribute não pode estar em branco!',
+            // generalizando a validação 'min'
+            'min' => 'É necessário ter no mínimo 3 caracteres no campo :attribute!',
+            // generalizando a validação 'max'
+            'max' => 'O campo :attribute pode conter no máximo 255 caracteres!',
+            // generalizando a validação 'unique'
+            'unique' => 'Este :attribute já está sendo utilizado!',
+            // generalizando a validação 'email'
+            'email' => 'É necessário inserir um :attribute válido!'
 
+
+            //'nome.required' => 'É necessário inserir um Nome!',
+            //'nome.min' => 'É preciso inserir um nome com pelo menos 2 caracteres!',
+            //'nome.max' => 'Nomes só podem conter no máximo 255 caracteres!',
+            //'idade.required' => 'É necessário inserir uma idade!',
+            //'endereco.required' => 'É necessário inserir um Endereço!',
+            //'endereco.min' => 'O Endereço precisa conter ao menos 3 caracteres!',
+            //'endereco.max' => 'O Endereço pode conter no máximo 255 caracteres!',
+            //'email.required' => 'É necessário inserir um E-Mail!',
+            //'email.email' => 'É necessário inserir um E-Mail Válido!',
+            //'email.unique' => 'Este email já está sendo ultilizado!'
         ];
 
+        //aplicando minhas regras e mensagens
         $request->validate($regras, $mensagens);
 
         //efetuando a criação de um novo cliente na minha tabela
