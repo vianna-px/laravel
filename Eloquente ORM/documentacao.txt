@@ -1,0 +1,19 @@
+[ELOQUENTE ORM- RELACIONAMENTOS UM PRA UM]
+
+primeiramente ireo criar um projeto chamado "rel-um-pra-um" no diretório C:\xampp\htdocs\laravel\Eloquente ORM pelo CMD com o seguinte comando:
+> composer create-project --prefer-dist "laravel/laravel" rel-um-pra-um
+
+Assim que finalizar, abro minha pasta do projeto. Então, crio os modelos Cliente e Endereço, com as seguintes linhas de código:
+> php artisan make:model Cliente -m
+> php artisan make:model Endereco -m
+
+Em seguida, no meu editor de texto, vou no diretório C:\xampp\htdocs\laravel\Eloquente ORM\rel-um-pra-um\database\migrations e excluo os arquivos "*_create_users_table.php" e "*_create_failed_jobs_table.php" (só porque não irei usá-las), após isso, irei editar a tabela "*_create_clientes_table.php", adicionando o campo que colocarei o nome de "TRECHO ADICIONADO INICIALMENTE", e depois vou em "*_create_enderecos_table.php" e adicionarei também um novo trecho com o marcador de "TRECHO ADICIONADO INICIALMENTE". Depois da conclusão desse procedimento, irei criar um novo database para esse meu novo projeto no phpMyAdmin, o qual eu chamei de "umpraum".
+
+Sequencialmente, vou no arquivo .env e adiciono meu novo DB, user e senha nos seguintes campos, das seguintes formas:
+DB_DATABASE=umpraum
+DB_USERNAME=root
+DB_PASSWORD=
+
+e atualizo minhas migrações pelo CMD com o comando 
+> php artisan migrate:fresh
+

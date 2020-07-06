@@ -1,0 +1,129 @@
+[CRIANDO O PROJETO]
+
+Iniciando projeto de aprendizado de Laravel 5.5 em conjunto com Vue JS.
+Primeiramente, crio meu projeto Laravel na versão 5.5, o qual eu chamo de "Blog", com a seguinte linha de código:
+> composer create-project --prefer-dist laravel/laravel blog "5.5.*"
+
+Sequencialmente, abro o meu diretório C:\xampp\htdocs\laravel\Laravel 5.5 com Vue JS\blog e executo o comando:
+> php artisan serve
+
+##########################################################################################
+[PREPARANDO O PROJETO]
+
+para testar, abro meu navegador e digito http://localhost:8000/ , neste ponto, o correto é aparecer a tela inicial do Laravel. Tudo funcionando, então, vou ao arquivo .env e deixo o seguinte bloco da seguinte forma:
+DB_CONNECTION=sqlite
+DB_HOST=127.0.0.1
+DB_PORT=3306
+#DB_DATABASE=homestead
+#DB_USERNAME=homestead
+#DB_PASSWORD=secret
+
+Logo após, crio o arquivo /blog/database/database.sqlite. Após isso, vou ao meu CMD na pasta /blog e digito a seguinte linha de comando:
+> php artisan make:auth
+
+Feito isso, agora eu vou novamente em http://localhost:8000/, irá aparecer os botões "Login" e "Register" no canto superior direito da tela inicial do Laravel. Agora irei criar as minhas tabelas do banco de dados, para que o cadastro e armazenamento funcionem de forma correta, portanto, digito no CMD o comando:
+> php artisan migrate
+
+Em seguida, paro a minha execução do servidor (abrindo o CMD e digitando Ctrl+C) e inicio de novo com o comando php artisan serve. E então, meu login e registro está funcionando corretamente! 
+
+##########################################################################################
+[TESTANDO VUE E COMPONENTES]
+
+Agora, irei testar meus componentes Vue JS, com um componente que já vem pronto, no diretório resources/assets/js/components/ExampleComponent.vue. Para isso, vou em resources/views/home.blade.php, apago tudo entre as tags @section e @endsection e sobrescrevo com o nome do meu componente, que eu posso ver em resources/assets/js/app.js (lá eu marquei onde está o nome do meu componente, mas vou copiar e colar aqui também para facilitar)
+
+//este é o nome do meu componente que já veio pronto
+//                    ||
+//                    \/
+Vue.component('example-component', require('./components/ExampleComponent.vue'));
+//                                                    /\
+//                                                    ||
+//                                   esta é minha importação do arquivo
+
+e então eu renderizo esse componente na minha home.blade.php como uma Tag HTML:
+<example-component></example-component>
+
+para visualizar como ficou, basta ir em http://localhost:8000/home
+
+##########################################################################################
+[ALTERANDO E RENDERIZANDO COMPONENTES]
+
+Para que eu consiga efetuar alterações nos meus componentes, precisarei ter o Node rodando na minha aplicação. Pra isso, instalo com o seguinte comando no CMD dentro do meu diretório da aplicação:
+> npm install
+
+E para atualizar alguma alteração que eu fiz de teste no meu componente, eu rodo:
+> npm run dev
+
+Explicação do próximo passo: toda vez que eu fizer alguma nova alteração no meu componente, precisarei rodar o "npm run dev", caso contrário não conseguirei visualizar minhas novidades do componente, o que é algo que me tomará muito tempo, coisa que não me é nada interessante. Para não precisar realizar esse procedimento, rodo o seguinte comando no CMD para atualizar automaticamente:
+> npm run watch
+
+##########################################################################################
+[CRIANDO E ADAPTANDO COMPONENTES]
+
+Feito isso, agora inicio minhas criações de componentes. Primeiramente, no diretório resources/assets/js/components eu crio o arquivo Topo.vue me baseando no ExampleComponent.vue, em seguida visualizo o html que está em /resources/views/layouts/app.blade.php para me basear. Copio tudo que está na tag <nav> e colo dentro das tags <template> no arquivo Topo.vue, adiciono a seção "ADICIONANDO PROPS AO COMPONENTE" dentro da minha tag <script> e realizo mais algumas alterações, como tirar tudo da tag @guest e alterar o método de entrada do link de título (vide Topo.vue para ver alterações). Vou ao arquivo /resources/assets/js/app.js e defino mina rota para meu novo componente.
+
+Agora, para adaptar para uso o meu componente, eu vou em /resources/views/layouts/app.blade.php, dentro das tags body>div, e coloco as seguintes <topo></topo> (que foi como eu identifiquei o meu componente em /resources/assets/js/app.js) passando junto o que eu coloquei dentro do meu "props" (que foi título e url) no arquivo Topo.vue. Aí eu copio todo o conteúdo de @guest e apago tudo que tenho no meu <nav> dentro desse arquivo, pra testar meu novo componente. Pra isso, salvo e vou em http://localhost:8000/home. Pra saber que está funcionando, precisa aparecer a mesma tela de antes (só que sem os links no canto superior direito), acontecendo isso, tudo certo até aqui! 
+
+Aí então eu colo, ainda no app.blade.php, tudo que eu tinha dentro da minha tag @guest e adapto no Topo.vue pra que isso seja exibido da mesma forma que antes, dentro da tag "<ul></ul>" com o comentário "<!-- Right Side Of Navbar -->" , insiro as tags "<slot></slot>". Pra testar, novamente, vou em http://localhost:8000/home, e agora precisa aparecer o botão de logout no canto superior direito da tela.
+
+##########################################################################################
+[PERSONALIZANDO BLOG]
+
+Agora, irei alterar meu container da página inicial. Para isso, irei ao meu arquivo ExampleComponent.vue, copio tudo dentro da tag <template> e colo dentro da @section em home.blade.php. Crio o componente Painel.vue e me baseio em ExampleComponent.vue e o adapto (Cabeçalho, corpo do painel e props no script), ao fim disso, habilito o uso do componente no app.js, vou ao home.blade.php, apago meu painel antigo e insiro meu novo painel dinâmico com as tags <painel></painel>, passando junto o "título", que declarei a requisição lá no props do componente.
+
+##########################################################################################
+[CSS NO PAINEL]
+
+Primeiramente, adiciono o props 'cor' ao meu Painel.vue e torno minha classe dinâmica, transformando ela numa variável, com o v-bind dentro da minha div do Painel. E então crio uma função computada no meu script, com o argumento "computed", que irá setar a cor do meu painel de acordo com as condições que eu definir. Crio a tag <style media="screen"> e insiro minha estilização lá.
+
+OBS: Estou copiando a estilização inspecionando os elementos da minha página /home, pois criei menus e submenus lá com o bootstrap, com as estilizações de panel-success, panel-danger e panel-warning, criando novas cores e inserindo dentro da classe .blue.
+
+E então, vou em home.blade.php e altero minha classe do painel para "blue". Agora, refaço o mesmo procedimento, duplicando minha estilização criada, para gerar uma cor laranja e aplicá-la no meu segundo subpainel, dentro do meu painel principal.
+
+##########################################################################################
+[INICIANDO O COMPONENTE CAIXA]
+
+Agora, que já testei um pouco do CSS com Bootstrap, irei tirar esses painéis e criar um painel do zero, para utilizar como uma caixa de conteúdos, utilizando o Admin LTE. Pra isso, irei criar um novo componente em /resources/assets/js/components, o qual eu chamarei de Caixa.vue, novamente, me baseando no ExampleComponent.vue, copiando todo seu conteúdo, colando no meu novo arquivo e apagando todo o conteúdo da tag <template>. Em seguida, habilito seu uso em app.js, aí então eu adiciono minha tag <caixa> na minha página /home. 
+
+Feito isso, vou à página https://adminlte.io/themes/AdminLTE/pages/widgets.html e inspeciono os elementos da caixa de conteúdo que eu irei usar, clico com o botão direito, clico para editar como HTMl, seleciono toda a sua div, copio e colo na tag <template> em Caixa.vue. Copio também, a estilização do elemento selecionado, na mesma página que peguei o meu template, procurando classe por classe, dentre as que foram utilizadas no template que eu copiei.
+
+Pra renderizar o ícone, fui ao Google e coloquei Fonte Awesome CDN e encontrei o link https://www.bootstrapcdn.com/fontawesome/, à partir dele, peguei o seguinte link de importação CDN:
+https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css
+
+Fui no arquivo /resources/assets/sass/app.css e fiz uma nova importação de fonte, com a função: 
+@import url("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+
+e então, meu ícone já está renderizado! Repito o mesmo processo com o ícone à direita (ícone verde), porém através do Ionicons, pelo seguinte link CDN: 
+http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css
+
+Após isso, altero o ícone antigo com a linha do meu novo ícone obtido, o qual marquei com a tag "ÍCONE ALTERADO" no arquivo Caixa.vue. Em seguida, pego mais algumas classes do footer da minha estilização da caixa de conteúdo e as insiro na minha tag <style> em Caixa.vue. 
+
+##########################################################################################
+[FINALIZANDO O COMPONENTE CAIXA]
+
+Agora, de forma manual, irei definir uma cor para o meu texto da minha caixa de conteúdo, dentro do arquivo Caixa.vue, na tag <style>, no atributo "color", na classe .small-box. Feito isso, irei adicionar o meu efeito de transição quando eu passar o mouse em cima da caixa. Pra isso, inspeciono o elemento na página do AdminLTE, seleciono a div principal (a que tem a classe "small-box bg-aqua"), vou no canto superior direito do console de inspeção, na área de "Styles" vai ter o botão :hov, que é a estilização do hover. Clico nele, seleciono a caixa "hover" e copio aquela folha de estilo. Depois disso, clico na div de ícone, ainda com o :hov selecionado, e copio a estilização do ícone em hover. 
+Agora eu repito esse processo para pegar a estilização do link da caixa de conteúdo em hover.
+
+Agora irei adicionar um props em Caixa.vue. Dentro dele irei inserir quantidade, titulo, url, cor e ícone, e então adapto o Caixa.vue para tornar dinâmica a minha caixa de conteúdo, deixando dinâmica também a estilização da cor da minha caixa com o "v-bind" na classe e o "computed" no script. Além disso, adicionarei o v-bind também ao meu ícone, para torná-lo dinâmico também.
+
+Agora, vou para o meu home.blade.php e passo, dentro da minha tag <caixa>, os parâmetros "qtd, titulo, url, cor e icone". Agora eu visualizo como ficou minha estilização em https://localhost:8000/home. Tudo funcionando, agora tornarei minha caixa mais dinâmica ainda, duplicando ela, 
+
+[COMPONENTE PÁGINA]
+
+Agora, criarei um componente página dinâmico, que irá adequar o tamanho de acordo com o valor passado, o qual irá variar entre col-md-2 e col-md-12, na tag <div> da minha página home.blade.php.
+
+EXPLICANDO A LÓGICA QUE USAREI:
+O único jeito que tenho pra explicar isso é matematicamente. Resumindo: a medida que eu escolher para CM, eu subtraio de 12 (que é o valor máximo para CM) e divido por 2. O resultado é o valor de CMO.
+OBS: o valor de CM não pode ser ímpar. Caso seja, eu somo 1, para que o torne par.
+Segue a fórmula:
+
+##########################
+##        FÓRMULA       ## 
+##########################
+##                      ##
+## CM=   col-md-8       ##
+## CMO=  col-md-offset  ##
+## (12 - CM) / 2 = CMO  ##
+##                      ##
+##########################
+
+Enfim, irei criar meu componente chamado Pagina.vue, baseado, novamente, em ExampleComponent.vue, apagando tudo dentro de <template e do export default no <script>. Em seguida, copio tudo da @section de home.blade.php e colo dentro do <template> na Pagina.vue, deixando um espaço de <slot> para inserção do home na tag <painel>. Aí então adiciono props no script, crio a função computada defineTamanho e insiro-a à classe da <div> que abriga o <slot>.

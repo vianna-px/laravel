@@ -172,3 +172,10 @@ E embaixo eu adiciono:
         {{ $errors->first('*attribute_name*') }}
     </div>
 @endif
+
+Tudo certo com meu formulário agora, finalizo a sessão de validação de formulários, e alterno para o projeto cadastro, dentro da minha pasta do Laravel, e continuo a documentação à partir de lá
+
+############################################################################
+############################################################################
+############################################################################
+
