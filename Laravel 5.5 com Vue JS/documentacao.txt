@@ -107,6 +107,7 @@ Agora irei adicionar um props em Caixa.vue. Dentro dele irei inserir quantidade,
 
 Agora, vou para o meu home.blade.php e passo, dentro da minha tag <caixa>, os parâmetros "qtd, titulo, url, cor e icone". Agora eu visualizo como ficou minha estilização em https://localhost:8000/home. Tudo funcionando, agora tornarei minha caixa mais dinâmica ainda, duplicando ela, 
 
+##########################################################################################
 [COMPONENTE PÁGINA]
 
 Agora, criarei um componente página dinâmico, que irá adequar o tamanho de acordo com o valor passado, o qual irá variar entre col-md-2 e col-md-12, na tag <div> da minha página home.blade.php.
@@ -120,10 +121,105 @@ Segue a fórmula:
 ##        FÓRMULA       ## 
 ##########################
 ##                      ##
-## CM=   col-md-8       ##
-## CMO=  col-md-offset  ##
+## CM  = col-md-8       ##
+## CMO = col-md-offset  ##
 ## (12 - CM) / 2 = CMO  ##
 ##                      ##
 ##########################
 
-Enfim, irei criar meu componente chamado Pagina.vue, baseado, novamente, em ExampleComponent.vue, apagando tudo dentro de <template e do export default no <script>. Em seguida, copio tudo da @section de home.blade.php e colo dentro do <template> na Pagina.vue, deixando um espaço de <slot> para inserção do home na tag <painel>. Aí então adiciono props no script, crio a função computada defineTamanho e insiro-a à classe da <div> que abriga o <slot>.
+Enfim, irei criar meu componente chamado Pagina.vue, baseado, novamente, em ExampleComponent.vue, apagando tudo dentro de <template> e do export default no <script>. Em seguida, copio tudo da @section de home.blade.php e colo dentro do <template> na Pagina.vue, deixando um espaço de <slot> para inserção do home na tag <painel>. Aí então adiciono props no script, crio a função computada defineTamanho e insiro-a à classe da <div> que abriga o <slot>, adicionando também o v-bind. Sequencialmente, habilito meu novo componente em app.js, copio minha tag <painel> em home.blade.php, apago tudo que tem dentro da @section aplico a minha nova tag <pagina> e, dentro dela, colo tudo que eu tinha na minha tag <painel>.
+
+Feito isso, agora irei criar uma função para fazer a leitura do tamanho desejado, inserido na tag <pagina>, fazer o cálculo do tamanho exato do meu CMO e aplicá-lo, para que meu painel fique perfeitamente centralizado.
+
+##########################################################################################
+[RESOURCE CONTROLLERS PARA ARTIGOS]
+
+Agora, irei arquitetar os links nas minhas caixas do painel. Para isso, primeiramente adiciono o v-bind ao href da caixa no arquivo Caixa.vue e alterar seu conteúdo para "url", assim então eu torno minha URL dinâmica, a qual irá ser preenchida com o valor que eu passsar na página home.blade.php, dentro do atributo url="" na tag <caixa>. Feito isso, meus links dos cards já estão funcionando.
+
+Agora, irei começar a desenvolver minha página "Artigos", da qual eu criei uma caixa específica pra ela no meu painel principal. Pra isso, precisarei criar um controle no Laravel, definir as rotas, criar as views para receber os HTML's desses artigos, e depois irei implementar apenas o HTML dessa página de Artigos, para que eu tenha um modelo do que irei implementar depois para colocar esse meu CRUD de artigos em funcionamento.
+
+OBS: os comandos usados abaixo, estou extraindo do seguinte link:
+https://laravel.com/docs/5.5/controllers#resource-controllers
+
+Primeiramente, irei criar o controle do Laravel, farei isso utilizando o Resource Controllers, pois ele irá trazer os métodos prontos para implementar o CRUD, e também será uma maneira mais simples de definir as rotas. Começo isso digitando o seguinte comando dentro do meu diretório através do CMD:
+> php artisan make:controller Admin/ArtigosController --resource
+
+Com isso, meu controlador irá ficar salvo em /app/Http/Controllers/Admin/ArtigosController.php. Agora, irei configurar as rotas para acessar os métodos do meu controlador, o qual eu faço em /routes/web.php. Começo definindo meu grupo de rotas, o qual eu deixo marcado dentro do mesmo arquivo. Faço isso passando também um prefixo e um namespace para a minha rota.
+// OBS: Todos os nomes de rotas de acordo com o Resource Controllers eu encontro no link: 
+// https://laravel.com/docs/5.5/controllers#resource-controllers
+
+Implemento a rota de Artigos dentro do meu novo grupo e em seguida coloco para retornar um "OK" no meu método index em /app/Http/Controllers/Admin/ArtigosController.php para testar minha rota. Se tudo der certo, digito http://localhost:8000/admin/artigos no meu navegador e ele me retornará um "Ok!". 
+
+##########################################################################################
+[CRIANDO A VIEW PARA A LISTA DE ARTIGOS]
+
+Agora que a rota funciona, irei desenvolver o método Index no meu ArtigosController.php. Então irei criar a seguinte estrutura de diretórios:
+/resources/views/admin/artigos
+Após isso, crio o arquivo index.blade.php dentro dessa nova estrutura de diretórios, me baseando no home.blade.php. Em seguida, irei à minha /home e implemento um link na caixa de Artigos, o qual irá me redirecionar para a página de artigos através da minha caixa no menu principal, dentro do atributo url="".
+
+Feito isso, atualizo meu navegador na página principal para testar meu link. Tudo funcionando corretamente, agora irei trabalhar na tabela de Artigos.
+
+##########################################################################################
+[TABELA DE LISTA DE ARTIGOS]
+
+A primeira coisa que faço, é criar um link e um espaço para alocar minha tabela na página /resources/views/admin/artigos/index.blade.php. Em seguida, escolho qual tabela do Bootstrap usarei, no link:
+https://getbootstrap.com/docs/3.3/css/#tables
+Escolhida a tabela, aplico suas classes na minha nova tabela criada na página index.blade.php e crio uma tabela demo estática para realizar um preview de como irá ficar. Feito isso, vou em http://localhost:8000/admin/artigos para visualizar como minha tabela ficou. Tudo funcionando corretamente, partirei para trabalhar nos componentes em cima dessa tabela, para que ela fique mais dinâmica.
+
+##########################################################################################
+[COMPONENTE TABELALISTA - TÍTULOS]
+
+Inicialmente, crio um novo componente em /resources/assets/js/components, o qual eu chamo de TabelaLista.vue, me baseando novamente em ExampleComponent.vue. Já aproveito e o habilito em app.js. Agora, recorto toda a minha tabela estática que estava em index.blade.php e a colo no meu TabelaLista.vue, e já coloco a minha tag <tabela-lista> na index.blade.php. Feito isso, vou em http://localhost:8000/admin/artigos e atualizo minha página, para visualizar se está funcionando corretamente. Tudo certo, volto à personalizar minha tabela na index, adicionando à minha tag a requisição de "v-bind:titulos", levando em consideração que irei torná-la dinâmica. Vou novamente à TabelaLista.vue e adiciono os props dinâmicos, para abrigar cada valor passado em "titulos", com um "v-for" na minha estrutura de cabeçalho da tabela, no meu HTML. 
+
+##########################################################################################
+[COMPONENTE TABELALISTA - ITENS]
+
+Agora, irei criar um laço de repetição, para exibir, de forma dinâmica, cada item dentro da minha lista. Para testar a funçãqo que irei criar, crio a seguinte estrutura de requisições no meu index (literalmente irei copiar e colar pra facilitar minha vida):
+
+@section('content')
+    <pagina tamanho="12">
+        <painel titulo="Lista de Artigos">
+            <tabela-lista 
+            v-bind:titulos="['#','Título', 'Descrição']"
+            v-bind:itens="[[1,'PHP OO', 'Curso de PHP Orientado à Objetos'], [2,'Vue JS', 'Curso de Vue JS']]"
+            ></tabela-lista>
+        </painel>
+    </pagina>
+@endsection
+
+Feito isso, adiciono ao meu props, dentro de TabelaLista.vue, para então dar início à criação da minha função. Além disso, adiciono o v-for="" ao <tr> e ao <td> do corpo da minha tabela, para criar uma lista de repetição. E então, vou à minha página de artigos e a atualizo para visualizar minhas alterações feitas. 
+
+##########################################################################################
+[COMPONENTE TABELALISTA - AÇÃO]
+
+Primeiramente, vou ao index e, dentro da tag <tabela-lista>, defino os seguintes atributos:
+criar="#criar" detalhe="#detalhe" editar="#editar" deletar="#deletar" token="7887522323"
+(o token é um número aleatório)
+Em seguida, adiciono minhas novas informações ao meu props em TabelaLista.vue e deixo meu link Criar da seguinte forma e o testo na página de Artigos:
+<a v-if="criar" v-bind:href="criar">Criar</a>
+
+Aplico a mesma lógica para os botões Detalhe, Editar e Deletar, e adiciono o condicionamento ao meu <td> que irá exibir esses 3 ícones, somente se for passado ao menos 1 desses 3, o que ficará da seguinte forma:
+<td v-if="detalhe || editar || deletar">
+    <a v-if="detalhe" v-bind:href="detalhe">Detalhe | </a>
+    <a v-if="editar" v-bind:href="editar">Editar | </a>
+    <a v-if="deletar" v-bind:href="deletar">Deletar</a>
+</td>
+
+E aí eu coloco um formulário dentro desse meu campo, o que estará melhor descrito em TabelaLista.vue. 
+
+##########################################################################################
+[COMPONENTE TABELALISTA - DELETAR]
+
+Agora, irei trabalhar na submissão do meu formulário e no início do meu botão de Delete na minha página, adaptando minhas entradas e requisições e criando o método dentro do próprio script da TabelaLista.vue. 
+EXPLICAÇÃO: 
+Por que usar um método no script ao invés de usar uma função computada? 
+R: Métodos no script só são processados quando há um clique do usuário, enquanto funções computadas são processadas toda vez no carregamento da página, por isso podem ser mais interessantes.
+
+##########################################################################################
+[CRIANDO UM CAMPO DE BUSCA - PARTE 1]
+
+para deixar minha barra de busca alinhada com o botão Criar, irei utilizar um código do Bootstrap, o qual eu insiro em TabelaLista.vue, antes da minha tabela, ambas juntas numa <div>. Em seguida, adapto a leitura de inserção dos dados na minha barra de busca com o atributo "data" dentro do meu script, o qual receberá uma função que irá retornar um objeto. Agora, irei adicionar métodos computados ao meu script, para que seja realizada a filtragem da busca na barra. Utilizarei método computado para ser efetuada sua ativação desde o carregamento da página, e pra minha aplicação não ficar pesada. 
+
+##########################################################################################
+[CRIANDO UM CAMPO DE BUSCA - PARTE 2]
+
