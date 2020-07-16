@@ -19,10 +19,21 @@ class ArtigosController extends Controller
     {
         //testando....
         //return "Ok!";
+
+        //Criando minha lista de migalhas da navegação. 
+        //aqui eu passei o json_encode pra ser legível para o javascript
+        $listaMigalhas = json_encode([
+            ["titulo"=>"Home","url"=>route('home')],
+//                                            /\
+//                                            |
+//                          Aqui é o apelido da minha rota,
+//                          o qual eu vejo em /routes/web.php
+            ["titulo"=>"Lista de Compras","url"=>""]
+        ]);
         
         //aqui eu seto os caminhos que meu controlador irá requisitar,
         //separado por pontos, que no caso é /admin/artigos/index
-        return view('admin.artigos.index');
+        return view('admin.artigos.index',compact('listaMigalhas'));
     }
 
     /**

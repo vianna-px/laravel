@@ -18,6 +18,9 @@ use Illuminate\Http\Request;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('quasar', function () {
+    return view('quasar');
+});
 
 #   //o parametro que passo entre {chaves} não precisa ter o mesmo nome dos parametros que eu passo 
 #   //($na $funcao), mas o que está ($na $funcao) precisa ser o mesmo que eu passo $na $chamada do 

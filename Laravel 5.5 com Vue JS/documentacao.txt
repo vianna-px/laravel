@@ -223,3 +223,43 @@ para deixar minha barra de busca alinhada com o botão Criar, irei utilizar um c
 ##########################################################################################
 [CRIANDO UM CAMPO DE BUSCA - PARTE 2]
 
+Agora, dentro da minha função computada, eu crio o meu filtro para efetuar minha busca na lista de artigos, dentro da TabelaLista.vue. Todas explicações em comentários no próprio arquivo.
+
+##########################################################################################
+[LÓGICA PARA ORDENAR A LISTA DE ARTIGOS]
+
+Irei criar métodos de ordenação da lista de artigos pelo título ou pelo ID. Começo isso, alterando direto dentro da minha lista:function(), ainda no meu arquivo TabelaLista.vue. Comentários e instruções à partir de lá.
+
+##########################################################################################
+[ORDENAÇÃO DINÂMICA]
+
+Trabalharei agora em evoluir meus métodos de ordenação, dentro de TabelaLista.vue, em lista:function(), crio uma variável chamada ordem, e à partir de lá eu explico, através dos comentários. Feito a adaptação na função computada e nos meus props, vou ao index.blade.php e adiciono os atributos "ordem" e "ordemCol" 
+
+##########################################################################################
+[MÉTODO PARA ORDENAR POR COLUNA - PARTE 1]
+
+Desenvolverei um método para alterar a ordenação da tabela clicando na coluna pela qual quero ordenar. Faço isso dentro de methods em TabelaLista.vue, explico através de comentários no arquivo. Feito isso, adiciono minhas alterações no titulo do HTML passando minha função em o v-on:click, deixando-o da seguinte forma:
+<th style="cursor:pointer" v-on:click="ordenaColuna(index)" v-for="(titulo,index) in titulos">{{titulo}}</th>
+
+E então a ordenação já é feita pelo click, podendo ser por Título, ID ou Descrição, porém o Vue indica no console do navegador que esta não é uma boa prática, pois altera o valor de atributo passado pela minha página index.blade.php, então vou alterar isso no próximo tópico.
+
+##########################################################################################
+[MÉTODO PARA ORDENAR POR COLUNA - PARTE 2]
+
+Vou agora, corrigir o erro gerado no console pelo Vue por não executar boas práticas na ordenação da minha lista. Pra isso, vou criar duas variáveis dentro de "data" no script que irão substituir os props "ordem" e "ordemcol". E então eu altero no meu método "ordenaColuna" e na minha função computada "lista", tudo que recebe "this.ordem" para "this.ordemAux" e tudo que recebe "this.ordemCol" para "this.ordemAuxCol". e Então, minha ordenação dinâmica já está funcionando corretamente.
+
+##########################################################################################
+[CRIANDO COMPONENTES PARA NAVEGAÇÃO]
+
+Agora irei criar um componente de navegação para indicar ao usuário em qual parte do sistema ele está navegando, o qual também terá botões, para facilitar caso ele queira retornar para algum outro diretório pelo qual ele já tenha passado. Farei isso com o recurso Breadcrumbs do Bootstrap, no seguinte link:
+https://getbootstrap.com/docs/3.3/components/#breadcrumbs
+
+Copio o template no link, crio um componente chamado Migalhas.vue (baseado no meu ExampleComponent.vue) e o colo dentro das tags <template> e habilito meu componente em app.js como "migalhas" e adiciono minha tag <migalhas> no meu index.blade.php, dentro do meu painel e vou ao meu navegador para conferir se meu componente de navegação já está sendo exibido.
+
+Funcionando corretamente, irei aplicar a lógica de funcionamento da mesma. Pra isso, irei realizar testes do controle do Laravel, em ArtigosController.php, no método index(), à partir de lá, irei explicar através de comentários no arquivo. Criada a variável $listaMigalhas com o json_encode, eu passo o v-bind:lista="{{$listaMigalhas}}" dentro da minha tag <migalhas>, no index.blade.php. Enfim, tenho acesso à esses dados no meu componente Migalhas.vue, e trato deles pelo meu props, e explico à partir de lá pelos comentários o que eu faço.
+E então, vou ao meu navegador e atualizo a minha página, para ter certeza de que não está sendo gerado nenhum erro, e abro o console. Se ocorrer tudo certo, precisa aparecer um array com os dados passados.
+
+##########################################################################################
+[FINALIZANDO O COMPONENTE DE MIGALHAS]
+
+Com o meu array de dados sendo recebido no meu console, sigo com minha implementação dos Breadcrumbs. Começo criando um método computado no Migalhas.vue com a função defineClass() dentro dele, comentando o meu antigo Mounted, que retornava o array para o console, aplicando um v-for no <li> do Home, e alterando o link Home utilizando um v-bind na class e no href e usando uma variável dinâmica para estruturar o caminho.
