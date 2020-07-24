@@ -1,0 +1,116 @@
+This file will explain all the followed steps to create and install GRH Brasil system.
+Source: https://medium.com/@lalrinfela/laravel-with-quasar-spa-7b298024f106
+
+########################################################################################################################################
+
+Step 1: Install Laravel using Composer
+$ composer create-project --prefer-dist laravel/laravel sistemagrh
+
+Open application directory:
+$ cd sistemagrh
+
+Here our application name is sistemagrh.
+$ composer install
+
+########################################################################################################################################
+
+Step 2: Install Vue CLI and Quasar CLI Globally
+$ npm install -g @vue/cli
+$ npm install -g @quasar/cli
+
+There I used the following CMDLET to test my vue and quasar installation:
+$ Set-ExecutionPolicy RemoteSigned
+
+For furter: https://pt.stackoverflow.com/questions/220078/o-que-significa-o-erro-execução-de-scripts-foi-desabilitada-neste-sistema
+
+So, then, I test my installations with:
+$ vue -V
+$ quasar
+
+OBS: After all the proccess, I need to rollback the ExecutionPolicy with:
+$ Set-ExecutionPolicy Restricted
+
+########################################################################################################################################
+
+Step 3: In the Laravel root directory run the command
+$ quasar create quasarapp
+
+So, I've setted the following option, and getted the following answer:
+
+##################################################################################################################
+##################################################################################################################
+##   ___                                                                                                        ##
+##  / _ \ _   _  __ _ ___  __ _ _ __                                                                            ##
+## | | | | | | |/ _` / __|/ _` | '__|                                                                           ##
+## | |_| | |_| | (_| \__ \ (_| | |                                                                              ##
+##  \__\_\\__,_|\__,_|___/\__,_|_|                                                                              ##
+##                                                                                                              ##
+##                                                                                                              ##
+##                                                                                                              ##
+## ? Project name (internal usage for dev) quasarapp                                                            ##
+## ? Project product name (must start with letter if building mobile apps) Quasar App                           ##
+## ? Project description A Quasar Framework app                                                                 ##
+## ? Author ViannaPx <matheus.viana2510@hotmail,com>                                                            ##
+## ? Pick your favorite CSS preprocessor: (can be changed later) Sass                                           ##
+## ? Pick a Quasar components & directives import strategy: (can be changed later) Auto import                  ##
+## ? Check the features needed for your project: ESLint (recommended), TypeScript, Vuex, Axios, Vue-i18n, I     ##
+## E11 support                                                                                                  ##
+## ? Pick a component style: Composition                                                                        ##
+## ? Pick an ESLint preset: Standard                                                                            ##
+## ? Continue to install project dependencies after the project has been created? (recommended) NPM             ##
+##                                                                                                              ##
+##   Quasar CLI · Generated "quasarapp".                                                                        ##
+##                                                                                                              ##
+##                                                                                                              ##
+##  [*] Installing project dependencies ...                                                                     ##
+##                                                                                                              ##
+## 'yarn' não é reconhecido como um comando interno                                                             ##
+## ou externo, um programa operável ou um arquivo em lotes.                                                     ##
+##                                                                                                              ##
+##  yarn install FAILED... Possible temporary npm registry issues?                                              ##
+##  Please try again later...                                                                                   ##
+##                                                                                                              ##
+##################################################################################################################
+##################################################################################################################
+
+########################################################################################################################################
+
+Step 4: Build the quasar app
+$ cd quasarapp
+$ quasar build
+
+########################################################################################################################################
+
+Step 5: Install project level npm for Laravel
+$ cd Laravel
+$ npm install
+
+Upon successful execution of the above npm command, node_modules folder will be created in the Laravel root folder with the respective npm packages and dependencies specified in the package.json
+
+########################################################################################################################################
+
+Step 6: Update Laravel webpack.mix.js to copy the quasar build app to laravel public directory and serve from laravel.
+mix
+.copy('quasarapp/dist/spa/index.html', 'resources/views/app.blade.php')
+.copyDirectory('quasarapp/dist/spa', 'public');
+
+Create a blank app.blade.php at resources/views directory and then run laravel mix command:
+ $ npm run dev
+
+The above npm command is the most important point for linking the quasar spa app with laravel as it published the build product of quasar to laravel respective folders. (for production: npm run production)
+
+########################################################################################################################################
+
+Step 7: Update routes/web.php
+Route::get('{any}', function () {
+    return view('app');
+})->where('any','.*');
+
+########################################################################################################################################
+
+So, then I test my page, running my server and Laravel application, opening my browser and typing:
+localhost:8000
+
+########################################################################################################################################
+
+For furter: https://medium.com/@lalrinfela/laravel-with-quasar-spa-7b298024f106
