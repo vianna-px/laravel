@@ -21,10 +21,10 @@ DB_PORT=3306
 Logo após, crio o arquivo /blog/database/database.sqlite. Após isso, vou ao meu CMD na pasta /blog e digito a seguinte linha de comando:
 > php artisan make:auth
 
-Feito isso, agora eu vou novamente em http://localhost:8000/, irá aparecer os botões "Login" e "Register" no canto superior direito da tela inicial do Laravel. Agora irei criar as minhas tabelas do banco de dados, para que o cadastro e armazenamento funcionem de forma correta, portanto, digito no CMD o comando:
+Feito isso, agora eu vou novamente em http://localhost:8000/, irão aparecer os botões "Login" e "Register" no canto superior direito da tela inicial do Laravel. Agora irei criar as minhas tabelas do banco de dados, para que o cadastro e armazenamento funcionem de forma correta, portanto, digito no CMD o comando:
 > php artisan migrate
 
-Em seguida, paro a minha execução do servidor (abrindo o CMD e digitando Ctrl+C) e inicio de novo com o comando php artisan serve. E então, meu login e registro está funcionando corretamente!
+Em seguida, paro a minha execução do servidor (abrindo o CMD e digitando Ctrl+C) e inicio de novo com o comando php artisan serve. E então, meu login e registro estão funcionando corretamente!
 
 ##########################################################################################
 [TESTANDO VUE E COMPONENTES]
@@ -61,19 +61,19 @@ Explicação do próximo passo: toda vez que eu fizer alguma nova alteração no
 
 Feito isso, agora inicio minhas criações de componentes. Primeiramente, no diretório resources/assets/js/components eu crio o arquivo Topo.vue me baseando no ExampleComponent.vue, em seguida visualizo o html que está em /resources/views/layouts/app.blade.php para me basear. Copio tudo que está na tag <nav> e colo dentro das tags <template> no arquivo Topo.vue, adiciono a seção "ADICIONANDO PROPS AO COMPONENTE" dentro da minha tag <script> e realizo mais algumas alterações, como tirar tudo da tag @guest e alterar o método de entrada do link de título (vide Topo.vue para ver alterações). Vou ao arquivo /resources/assets/js/app.js e defino mina rota para meu novo componente.
 
-Agora, para adaptar para uso o meu componente, eu vou em /resources/views/layouts/app.blade.php, dentro das tags body>div, e coloco as seguintes <topo></topo> (que foi como eu identifiquei o meu componente em /resources/assets/js/app.js) passando junto o que eu coloquei dentro do meu "props" (que foi título e url) no arquivo Topo.vue. Aí eu copio todo o conteúdo de @guest e apago tudo que tenho no meu <nav> dentro desse arquivo, pra testar meu novo componente. Pra isso, salvo e vou em http://localhost:8000/home. Pra saber que está funcionando, precisa aparecer a mesma tela de antes (só que sem os links no canto superior direito), acontecendo isso, tudo certo até aqui! 
+Agora, para adaptar para uso o meu componente, eu vou em /resources/views/layouts/app.blade.php, dentro das tags body>div, e coloco as seguintes tag <topo></topo> (que foi como eu identifiquei o meu componente em /resources/assets/js/app.js) passando junto o que eu coloquei dentro do meu "props" (que foi título e url) no arquivo Topo.vue. Aí eu copio todo o conteúdo de @guest e apago tudo que tenho no meu <nav> dentro desse arquivo, pra testar meu novo componente. Pra isso, salvo e vou em http://localhost:8000/home. Pra saber que está funcionando, precisa aparecer a mesma tela de antes (só que sem os links no canto superior direito), acontecendo isso, tudo certo até aqui! 
 
 Aí então eu colo, ainda no app.blade.php, tudo que eu tinha dentro da minha tag @guest e adapto no Topo.vue pra que isso seja exibido da mesma forma que antes, dentro da tag "<ul></ul>" com o comentário "<!-- Right Side Of Navbar -->" , insiro as tags "<slot></slot>". Pra testar, novamente, vou em http://localhost:8000/home, e agora precisa aparecer o botão de logout no canto superior direito da tela.
 
 ##########################################################################################
 [PERSONALIZANDO BLOG]
 
-Agora, irei alterar meu container da página inicial. Para isso, irei ao meu arquivo ExampleComponent.vue, copio tudo dentro da tag <template> e colo dentro da @section em home.blade.php. Crio o componente Painel.vue e me baseio em ExampleComponent.vue e o adapto (Cabeçalho, corpo do painel e props no script), ao fim disso, habilito o uso do componente no app.js, vou ao home.blade.php, apago meu painel antigo e insiro meu novo painel dinâmico com as tags <painel></painel>, passando junto o "título", que declarei a requisição lá no props do componente.
+Agora, irei alterar meu container da página inicial. Para isso, irei ao meu arquivo ExampleComponent.vue, copio tudo dentro da tag <template> e colo dentro da @section em home.blade.php. Crio o componente Painel.vue e me baseio em ExampleComponent.vue e o adapto (Cabeçalho, corpo do painel e props no script), ao fim disso, habilito o uso do componente no app.js, vou ao home.blade.php, apago meu painel antigo e insiro meu novo painel dinâmico com as tags <painel></painel>, passando junto o "título", que declarei a requisição lá no props do componente Painel.vue.
 
 ##########################################################################################
 [CSS NO PAINEL]
 
-Primeiramente, adiciono o props 'cor' ao meu Painel.vue e torno minha classe dinâmica, transformando ela numa variável, com o v-bind dentro da minha div do Painel. E então crio uma função computada no meu script, com o argumento "computed", que irá setar a cor do meu painel de acordo com as condições que eu definir. Crio a tag <style media="screen"> e insiro minha estilização lá.
+Primeiramente, adiciono o props 'cor' ao meu Painel.vue e torno minha classe dinâmica, transformando ela numa variável, com o v-bind dentro da minha div no Painel.vue. E então crio uma função computada no meu script, com o argumento "computed", que irá setar a cor do meu painel de acordo com as condições que eu definir. Crio a tag <style media="screen"> e insiro minha estilização lá.
 
 OBS: Estou copiando a estilização inspecionando os elementos da minha página /home, pois criei menus e submenus lá com o bootstrap, com as estilizações de panel-success, panel-danger e panel-warning, criando novas cores e inserindo dentro da classe .blue.
 
@@ -89,7 +89,7 @@ Feito isso, vou à página https://adminlte.io/themes/AdminLTE/pages/widgets.htm
 Pra renderizar o ícone, fui ao Google e coloquei Fonte Awesome CDN e encontrei o link https://www.bootstrapcdn.com/fontawesome/, à partir dele, peguei o seguinte link de importação CDN:
 https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css
 
-Fui no arquivo /resources/assets/sass/app.css e fiz uma nova importação de fonte, com a função: 
+Fui no arquivo /resources/assets/sass/app.scss e fiz uma nova importação de fonte, com a função: 
 @import url("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 
 e então, meu ícone já está renderizado! Repito o mesmo processo com o ícone à direita (ícone verde), porém através do Ionicons, pelo seguinte link CDN: 
@@ -121,22 +121,22 @@ Segue a fórmula:
 ##        FÓRMULA       ## 
 ##########################
 ##                      ##
-## CM  = col-md-8       ##
+## CM  = col-md         ##
 ## CMO = col-md-offset  ##
 ## (12 - CM) / 2 = CMO  ##
 ##                      ##
 ##########################
 
-Enfim, irei criar meu componente chamado Pagina.vue, baseado, novamente, em ExampleComponent.vue, apagando tudo dentro de <template> e do export default no <script>. Em seguida, copio tudo da @section de home.blade.php e colo dentro do <template> na Pagina.vue, deixando um espaço de <slot> para inserção do home na tag <painel>. Aí então adiciono props no script, crio a função computada defineTamanho e insiro-a à classe da <div> que abriga o <slot>, adicionando também o v-bind. Sequencialmente, habilito meu novo componente em app.js, copio minha tag <painel> em home.blade.php, apago tudo que tem dentro da @section aplico a minha nova tag <pagina> e, dentro dela, colo tudo que eu tinha na minha tag <painel>.
+Enfim, irei criar meu componente chamado Pagina.vue, baseado, novamente, em ExampleComponent.vue, apagando tudo dentro de <template> e do export default no <script>. Em seguida, copio tudo da @section de home.blade.php e colo dentro do <template> na Pagina.vue, deixando um espaço de <slot> para inserção do home na tag <painel>. Aí então adiciono props no script, crio a função computada defineTamanho e insiro-a à classe da <div> que abriga o <slot>, adicionando também o v-bind. Sequencialmente, habilito meu novo componente em app.js, copio minha tag <painel> em home.blade.php, apago tudo que tem dentro da @section, aplico a minha nova tag <pagina> e, dentro dela, colo tudo que eu tinha na minha tag <painel>.
 
 Feito isso, agora irei criar uma função para fazer a leitura do tamanho desejado, inserido na tag <pagina>, fazer o cálculo do tamanho exato do meu CMO e aplicá-lo, para que meu painel fique perfeitamente centralizado.
 
 ##########################################################################################
 [RESOURCE CONTROLLERS PARA ARTIGOS]
 
-Agora, irei arquitetar os links nas minhas caixas do painel. Para isso, primeiramente adiciono o v-bind ao href da caixa no arquivo Caixa.vue e alterar seu conteúdo para "url", assim então eu torno minha URL dinâmica, a qual irá ser preenchida com o valor que eu passsar na página home.blade.php, dentro do atributo url="" na tag <caixa>. Feito isso, meus links dos cards já estão funcionando.
+Agora, irei arquitetar os links nas minhas caixas do painel. Para isso, primeiramente adiciono o v-bind ao href da caixa no arquivo Caixa.vue e altero seu conteúdo para "url", assim então eu torno minha URL dinâmica, a qual irá ser preenchida com o valor que eu passsar na página home.blade.php, dentro do atributo url="" na tag <caixa>. Feito isso, meus links dos cards já estão funcionando.
 
-Agora, irei começar a desenvolver minha página "Artigos", da qual eu criei uma caixa específica pra ela no meu painel principal. Pra isso, precisarei criar um controle no Laravel, definir as rotas, criar as views para receber os HTML's desses artigos, e depois irei implementar apenas o HTML dessa página de Artigos, para que eu tenha um modelo do que irei implementar depois para colocar esse meu CRUD de artigos em funcionamento.
+Agora, irei começar a desenvolver minha página "Artigos", a qual eu criei uma caixa específica pra ela no meu painel principal. Pra isso, precisarei criar um controle no Laravel, definir as rotas, criar as views para receber os HTML's desses artigos, e depois irei implementar apenas o HTML dessa página de Artigos, para que eu tenha um modelo do que irei implementar depois para colocar esse meu CRUD de artigos em funcionamento.
 
 OBS: os comandos usados abaixo, estou extraindo do seguinte link:
 https://laravel.com/docs/5.5/controllers#resource-controllers
@@ -180,8 +180,8 @@ Agora, irei criar um laço de repetição, para exibir, de forma dinâmica, cada
     <pagina tamanho="12">
         <painel titulo="Lista de Artigos">
             <tabela-lista 
-            v-bind:titulos="['#','Título', 'Descrição']"
-            v-bind:itens="[[1,'PHP OO', 'Curso de PHP Orientado à Objetos'], [2,'Vue JS', 'Curso de Vue JS']]"
+                v-bind:titulos="['#','Título', 'Descrição']"
+                v-bind:itens="[[1,'PHP OO', 'Curso de PHP Orientado à Objetos'], [2,'Vue JS', 'Curso de Vue JS']]"
             ></tabela-lista>
         </painel>
     </pagina>

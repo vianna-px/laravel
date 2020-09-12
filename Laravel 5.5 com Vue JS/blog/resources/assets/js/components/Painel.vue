@@ -1,6 +1,8 @@
 <template>
 <div v-bind:class="defineCor">
+    <!-- cabeçalho -->
     <div class="panel-heading">{{titulo}}</div>
+    <!-- corpo -->
     <div class="panel-body">
         <slot></slot>
     </div>
