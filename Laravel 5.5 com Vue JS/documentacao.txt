@@ -24,7 +24,7 @@ Logo após, crio o arquivo /blog/database/database.sqlite. Após isso, vou ao me
 Feito isso, agora eu vou novamente em http://localhost:8000/, irá aparecer os botões "Login" e "Register" no canto superior direito da tela inicial do Laravel. Agora irei criar as minhas tabelas do banco de dados, para que o cadastro e armazenamento funcionem de forma correta, portanto, digito no CMD o comando:
 > php artisan migrate
 
-Em seguida, paro a minha execução do servidor (abrindo o CMD e digitando Ctrl+C) e inicio de novo com o comando php artisan serve. E então, meu login e registro está funcionando corretamente! 
+Em seguida, paro a minha execução do servidor (abrindo o CMD e digitando Ctrl+C) e inicio de novo com o comando php artisan serve. E então, meu login e registro está funcionando corretamente!
 
 ##########################################################################################
 [TESTANDO VUE E COMPONENTES]

@@ -95,7 +95,7 @@ mix
 .copyDirectory('quasarapp/dist/spa', 'public');
 
 Create a blank app.blade.php at resources/views directory and then run laravel mix command:
- $ npm run dev
+$ npm run dev
 
 The above npm command is the most important point for linking the quasar spa app with laravel as it published the build product of quasar to laravel respective folders. (for production: npm run production)
 
@@ -114,3 +114,22 @@ localhost:8000
 ########################################################################################################################################
 
 For furter: https://medium.com/@lalrinfela/laravel-with-quasar-spa-7b298024f106
+
+########################################################################################################################################
+
+For Routing, check: https://quasar.dev/layout/routing-with-layouts-and-pages#Defining-Routes
+
+Creating layout:
+$ quasar new layout <layout_name>
+
+Route will be created in quasarapp/src/layout
+
+Creating Page:
+$ quasar new page <page_name>
+
+Route will be created in quasarapp/src/page 
+
+Another routes will be placed in: /src/router/routes.js
+
+########################################################################################################################################
+
