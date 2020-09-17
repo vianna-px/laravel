@@ -213,7 +213,7 @@ E aí eu coloco um formulário dentro desse meu campo, o que estará melhor desc
 Agora, irei trabalhar na submissão do meu formulário e no início do meu botão de Delete na minha página, adaptando minhas entradas e requisições e criando o método dentro do próprio script da TabelaLista.vue. 
 EXPLICAÇÃO: 
 Por que usar um método no script ao invés de usar uma função computada? 
-R: Métodos no script só são processados quando há um clique do usuário, enquanto funções computadas são processadas toda vez no carregamento da página, por isso podem ser mais interessantes.
+R: Métodos no script só são processados quando há um clique do usuário, enquanto funções computadas são processadas toda vez no carregamento da página, o que as tornam mais pesadas, por isso podem ser mais interessantes.
 
 ##########################################################################################
 [CRIANDO UM CAMPO DE BUSCA - PARTE 1]
@@ -233,12 +233,12 @@ Irei criar métodos de ordenação da lista de artigos pelo título ou pelo ID. 
 ##########################################################################################
 [ORDENAÇÃO DINÂMICA]
 
-Trabalharei agora em evoluir meus métodos de ordenação, dentro de TabelaLista.vue, em lista:function(), crio uma variável chamada ordem, e à partir de lá eu explico, através dos comentários. Feito a adaptação na função computada e nos meus props, vou ao index.blade.php e adiciono os atributos "ordem" e "ordemCol" 
+Trabalharei agora em evoluir meus métodos de ordenação, dentro de TabelaLista.vue, em lista:function(), crio uma variável chamada ordem, e à partir de lá eu explico, através dos comentários. Feito a adaptação na função computada e nos meus props, vou ao index.blade.php e adiciono os atributos "ordem" e "ordemCol" à tag <tabela-lista>.
 
 ##########################################################################################
 [MÉTODO PARA ORDENAR POR COLUNA - PARTE 1]
 
-Desenvolverei um método para alterar a ordenação da tabela clicando na coluna pela qual quero ordenar. Faço isso dentro de methods em TabelaLista.vue, explico através de comentários no arquivo. Feito isso, adiciono minhas alterações no titulo do HTML passando minha função em o v-on:click, deixando-o da seguinte forma:
+Desenvolverei um método para alterar a ordenação da tabela clicando na coluna pela qual quero ordenar. Faço isso dentro de methods em TabelaLista.vue, explico através de comentários no arquivo. Feito isso,ainda dentro de TabelaLista.vue, adiciono minhas alterações no titulo do HTML passando minha função em o v-on:click, deixando-o da seguinte forma:
 <th style="cursor:pointer" v-on:click="ordenaColuna(index)" v-for="(titulo,index) in titulos">{{titulo}}</th>
 
 E então a ordenação já é feita pelo click, podendo ser por Título, ID ou Descrição, porém o Vue indica no console do navegador que esta não é uma boa prática, pois altera o valor de atributo passado pela minha página index.blade.php, então vou alterar isso no próximo tópico.
@@ -263,3 +263,35 @@ E então, vou ao meu navegador e atualizo a minha página, para ter certeza de q
 [FINALIZANDO O COMPONENTE DE MIGALHAS]
 
 Com o meu array de dados sendo recebido no meu console, sigo com minha implementação dos Breadcrumbs. Começo criando um método computado no Migalhas.vue com a função defineClass() dentro dele, comentando o meu antigo Mounted, que retornava o array para o console, aplicando um v-for no <li> do Home, e alterando o link Home utilizando um v-bind na class e no href e usando uma variável dinâmica para estruturar o caminho.
+
+##########################################################################################
+[COMPONENTE DE MODAL]
+
+Para criar todo o meu CRUD e criar telas para Criar novo Registro, Editar, Exibir Detalhes e Deletar um registro irei utilizar o componente Large Modal do Bootstrap 3.3, o qual irá exibir uma janela com um formulário de todas as minhas opções, o qual eu obtenho em: 
+https://getbootstrap.com/docs/3.3/javascript/#modals-sizes
+
+Para implementá-lo, criarei dois componentes: um para o Botão e outro para o Formulário. 
+OBS: Este componente utiliza o JQuery para seu funcionamento. Como já tenho o Bootstrap instalado e o JQuery instanciado na minha aplicação, não preciso me preocupar em realizar alterações, precisando colocar só os códigos do modal nos meus componentes. Portanto, irei criar um diretório chamado "modal" e dentro dele irei criar os meus componentes Modal.vue para conteúdos e ModalLink.vue para meus botões e então já irei registrá-los no meu app.js. Sequencialmente irei implementar meu Modal.vue, e a partir de lá explico meus passos por comentários.
+
+Feitas as minhas alterações dentro desse arquivo, preciso testar. Para isso, irei em resources/views/admin/artigos/index.blade.php e insiro minha tag <modal> no fim do código, antes do @endsection, passando o atributo "nome" dentro dela e aplicando o meu botão copiado do link embaixo das minhas migalhas e aplicando o nome que usei dentro do data-target, com uma hashtag antes do nome. Concluído esse passo, vou ao meu navegador, na página de artigos e é para o meu botão aparecer na minha tabela.
+
+O botão funcionando, mesmo sem conteúdo, preciso adicionar um conteúdo ao meu modal agora. Pra isso, vou no seguinte link para pegar um formulário pra testar meu modal lá:
+https://getbootstrap.com/docs/3.3/css/#forms
+
+Pego o formulário, vou em index.blade.php e insiro-o dentro da minha tag <modal>, dentro também de uma tag <painel>, pra ficar corretamente centralizado.
+Volto ao navegador e testo. Tudo funcionando, irei pro próximo passo.
+
+##########################################################################################
+[COMPONENTE MODAL LINK]
+
+Agora, irei remover o meu botão que adicionei recentemente ao meu index (aliás, irei comentá-lo) e colocarei-o em ModalLink.vue, dentro de uma <div> com a classe em branco, a qual eu poderei setar dinamicamente também mais pra frente através de um props. Comentários à partir de lá.
+
+Dentro desse arquivo eu coloco 3 opções de link/botão: a padrão, que renderiza o botão padrão. A 'button', que renderiza um botão específico. E a 'link', que renderiza um link estilizado específico. As classes de estilização também são dinâmicas, porém são opcionais.
+
+Concluído meu trabalho no ModalLink.vue, vou ao meu index e insiro minha tag <modallink> lá, no mesmo lugar que eu havia deixado meu antigo botão. Passo dentro dessa tag também os props: 'nome' e 'título'. Quanto aos props 'tipo' e 'css' eu irei diversificar pra exibir o máximo de opções possíveis lá, deixando em comentário as que não irei usar.
+Depois disso, vou alternando entre os botôes que criei lá, pra me certificar que estão todos funcionando, testando-os pelo navegador. Depois disso, vou ao meu próximo passo, que é implementar o componente formulário.
+
+##########################################################################################
+[COMPONENTE FORMULÁRIO]
+
+Pra implementar meu CRUD, irei criar dois formulários: Um de Criar um Registro, o qual será alocado no 

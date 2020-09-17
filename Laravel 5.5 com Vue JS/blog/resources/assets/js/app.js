@@ -15,21 +15,24 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-//   este é o nome do meu componente que já veio pronto
-//                        |
-//                       \/
-// Vue.component('example-component', require('./components/ExampleComponent.vue'));
-//                                                       /\
-//                                                       |
-//                                      esta é minha importação do arquivo
-//
-//definindo minha rota para meu novo componente
+/*    este é o nome do meu componente que já veio pronto
+                        |
+                       \/
+ Vue.component('example-component', require('./components/ExampleComponent.vue'));
+                                                       /\
+                                                       |
+                                      esta é minha importação do arquivo
+
+definindo minha rota para meu novo componente */
 Vue.component('topo', require('./components/Topo.vue'));
 Vue.component('painel', require('./components/Painel.vue'));
 Vue.component('caixa', require('./components/Caixa.vue'));
 Vue.component('pagina', require('./components/Pagina.vue'));
 Vue.component('tabela-lista', require('./components/TabelaLista.vue'));
 Vue.component('migalhas', require('./components/Migalhas.vue'));
+/* rotas do meu Modal */
+Vue.component('modal', require('./components/modal/Modal.vue'));
+Vue.component('modallink', require('./components/modal/ModalLink.vue'));
 
 const app = new Vue({
     el: '#app'
