@@ -14,10 +14,10 @@
         computed:{
             defineTamanho: function(){
                 if(this.tamanho >= 12){
-                    return "col-md-12";    
+                    return "col-md-12";
                 }
                 if(this.tamanho <= 2){
-                    return "col-md-2 col-md-offset-5";    
+                    return "col-md-2 col-md-offset-5";
                 }
                 if((this.tamanho % 2) == 0){
                     return "col-md-"+this.tamanho+" col-md-offset-"+((12 - this.tamanho)/2);

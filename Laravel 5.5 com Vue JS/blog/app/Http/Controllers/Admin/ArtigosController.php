@@ -28,12 +28,19 @@ class ArtigosController extends Controller
 //                                            |
 //                          Aqui é o apelido da minha rota,
 //                          o qual eu vejo em /routes/web.php
-            ["titulo"=>"Lista de Compras","url"=>""]
+            ["titulo"=>"Lista de Artigos","url"=>""]
+        ]);
+
+        $listaArtigos = json_encode([
+            ["id"=>1,"titulo"=>"PHP OO","descricao"=>"C- Curso de PHP Orientado à Objetos","url"=>route('home')],
+            ["id"=>2,"titulo"=>"Vue JS","descricao"=>"A- Curso de Vue JS","url"=>route('home')],
+            ["id"=>3,"titulo"=>"Javascript","descricao"=>"B- Ensino básico de Javascript","url"=>route('home')]
         ]);
         
-        //aqui eu seto os caminhos que meu controlador irá requisitar,
-        //separado por pontos, que no caso é /admin/artigos/index
-        return view('admin.artigos.index',compact('listaMigalhas'));
+        /* aqui eu envio minhas listas para a minha view, 
+        setando os caminhos para onde meu controlador irá enviar,
+        separado por pontos, que no caso é /admin/artigos/index */
+        return view('admin.artigos.index',compact('listaMigalhas','listaArtigos'));
     }
 
     /**

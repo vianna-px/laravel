@@ -294,4 +294,84 @@ Depois disso, vou alternando entre os botôes que criei lá, pra me certificar q
 ##########################################################################################
 [COMPONENTE FORMULÁRIO]
 
-Pra implementar meu CRUD, irei criar dois formulários: Um de Criar um Registro, o qual será alocado no 
+Pra implementar meu CRUD, irei criar dois formulários: Um de Criar um Registro, o qual será alocado no botão Criar, e um formulário de Edição de Registro já existente, o qual será alocado no botão Editar. 
+
+Começo criando o meu componente Formulario.vue dentro da minha pasta padrão de componentes, com a minha estrutura das tags <template> e <script>, já o habilito em app.js e crio uma tag <form> dentro dele. Comentários e estrutura à partir de lá.
+
+Tudo concluído, parto para meu index.blade.php e comento todo aquele meu formulário de teste que estava usando antes, e sobreponho com a tag <formulario>, passando também todos os meus atributos que eu estabeleci no props e crio um simples formulário de registro lá dentro, seguido de um simples botão Bootstrap pra efetuar meu submit.
+
+##########################################################################################
+[REFATORANDO A TABELA LISTA]
+
+Começo indo ao meu ArtigosController.php, dentro do método index(), criando a variável $listaArtigos, me baseando na $listaMigalhas, passando todos os meus artigos que eu havia adicionado dentro da minha página index.blade.php. Depois disso, vou ao meu index e subtituo a antiga forma como eu estava passando os meus artigos por uma nova, inserindo minha variável $listaArtigos.
+
+Depois disso, vou ao meu componente TabelaLista.vue e me dirijo à sessão à qual marquei como [ADAPTAÇÃO: FILTRAGEM], inserindo toda a minha [ANTIGA FUNÇÃO DE FILTRAGEM] ao if(this.buscar). Feito isso, minha lista de artigos já será exibida completamente, porém ela não executa mais a ordanação, portanto irei trabalhar nisso.
+
+Pra retomar a minha ordenação, vou à minha tag [ORDENAÇÃO], marco como comentário a minha antiga função, seguida de [MÉTODO ANTIGO] e aplico meu [MÉTODO ADAPTADO], baseado no meu método antigo, porém com a função Object.values() sendo aplicada.
+
+Feito isso, vou ao meu navegador para realizar os testes da ordenação. Tudo funcionando corretamente, vou ao meu próximo passo.
+
+##########################################################################################
+[OPÇÃO DE MODAL DENTRO DO TABELA LISTA]
+
+Irei deixar disponível duas formas de criar um novo registro: através de um link e através de um modal, tornando assim o modal algo opcional, pra isso, irei criar uma flag dentro da minha tabela. Começo indo pro meu index.blade.php e insiro, dentro da minha <tabela-lista>, o atributo 'modal="sim" ' e passo o props 'modal' dentro da minha TabelaLista.vue e, em seguida, deixo meu link da seguinte forma:
+
+<a v-if="criar && !modal" v-bind:href="criar">Criar</a>
+
+E então eu tiro o <modallink> do meu index e o adiciono à minha TabelaLista.vue, com a mesma verificação do v-if do meu link, só que com a confirmação do meu modal na condição, ficando da seguinte forma:
+
+<modallink v-if="criar && modal" tipo="link" nome="meuModalTeste" titulo="Criar" css=""></modallink>
+
+Substituo então a minha tag <div> por uma <span> no meu ModalLink.vue, pra não ficar um espaço tão grande entre meu botão/link e minha tabela.
+No meu index, como atributo da tag <modal> eu insiro o atributo ' nome="adicionar" ' e passo esse mesmo nome no meu <modallink> dentro de TabelaLista.vue, pois agora irei criar meu modal de Editar e o meu modal de Detalhes também, no meu index.blade.php, dando Ctrl+C e Ctrl+V no meu modal Adicionar e alterando somente os nomes e títulos por enquanto. 
+
+Vou ao meu TabelaLista.vue e copio meu <modallink> de Criar e colo e adapto embaixo do link Editar, repito esse processo para todos os meus botões Editar. 
+
+##########################################################################################
+[CONFIGURANDO O VUEX]
+
+Para resolver o problema de preencher automaticamente meu formulário de edição com as informações já utilizadas no registro utilizarei o VueX, que é uma biblioteca que irei instalar na minha aplicação. Ele me servirá para facilitar a troca de informações dos meus componentes. 
+
+Pra realizar a instalação do VueX eu abro meu arquivo app.js e abro a pasta C:\xampp\htdocs\laravel\Laravel 5.5 com Vue JS\blog, lá dentro, eu digito o seguinte comando:
+> npm i vuex --save-dev
+
+Pra conferir se foi efetuada a instalação, eu vou em package.json e lá deve indicar a instalação do "vuex". Concluído isso, irei efetuar a configuração do VueX, começando por ir em app.js e importá-lo, e depois indiar ao Vue que use o VueX. Feito isso, ainda nesse arquivo, crio a loja do VueX. Comentários com as explicações no arquivo, na sessão [CONFIGURANDO O VUEX]. 
+
+Feito todos os passos lá, agora preciso passar minhas informações pra dentro do meu sistema, faço isso na seguinte parte, no final do código:
+
+const app = new Vue({
+    el: '#app',
+    /* passando minha loja para o resto do sistema */
+    store
+});
+
+insiro o seguinte valor dentro do objeto teste:"Funcionou!" pra fazer o teste da execução. Agora, vou em TabelaLista.vue e, dentro da minha <div> eu coloco a seguinte tag:
+<p>{{this.$store.state.itens}}</p>
+
+aí então eu vou na minha página com a tabela de artigos pelo meu navegador e confiro se aparece lá o meu objeto. Efetuado meu primeiro teste com o valor solto acima da tabela, ainda dentro da TabelaLista.vue, eu vou na minha função computada em lista:function() e insiro lá a mesma variável que utilizei pra efetuar os meus testes. Comentários à partir de lá.
+
+Concluído, abro meu navegador e atualizo minha página, pra me certificar de que foi inserido e renderizado meu novo objeto. 
+
+##########################################################################################
+[PREENCHENDO O FORMULÁRIO DE EDITAR]
+
+Agora que eu já testei o funcionamento da minha loja, irei colocá-lo em prática. Irei comentar os itens marcados como [TESTE] na minha TabelaLista.vue para dar procedência ao meu projeto.
+Eu já tenho a minha "loja de itens" com os registros que tenho na minha tabela, agora, o que eu preciso é passar todos eles para o meu Modal, que é o que eu recebo na TabelaLista.vue, em: 
+
+<tr v-for="(item,index) in lista">
+<td v-for="i in item">{{i}}</td>
+
+Eu posso resolver isso na tag <modallink>, passando o atributo v-bind:item="item" dentro dele e passando esse props pra ele dentro do meu componente ModalLink.vue. Crio também um <span> que irá ser coordenado por um método que irei criar, dentro desse arquivo, o qual irá efetuar o preenchimento do meu modal, ou então exibirá os campos em branco, caso não haja nada dentro do atributo "item". Agora, efetuo a criação do meu método preencheFormulario() e o deixo vazio por enquanto. Aí vou ao app.js e comento meu antigo objeto "itens" como um teste e crio um novo em branco, onde irei trabalhar permanentemente. Agora, passo o meu objeto de app.js pra dentro da minha função preencheFormulario(), em ModalLink.vue, utilizando o commit. Transmito então essas informações para o meu formulário de edição, dentro do meu index.blade.php, no meu Modal EDITAR, nas tags <input>, utilizando o v-model, o que vai ficar da seguinte forma (vou colocar só os atributos, não as tags completas):
+
+#título
+v-model="$store.state.item.titulo"
+#descrição
+v-model="$store.state.item.descricao"
+                                /\
+                                ||
+OBS: os nomes que passo como último parâmetro aqui eu defino lá no meu ArtigosController.php, que é o meu controlador de artigos
+
+##########################################################################################
+[EXIBINDO O MODAL DE DETALHE]
+
+Agora irei utilizar a mesma lógica do preenchimento do Editar, na sessão anterior. Primeiramente irei fazer o botão "detalhe" abrir um modal, o qual irei criar no index.blade.php. 
