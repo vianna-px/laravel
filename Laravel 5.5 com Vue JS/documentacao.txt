@@ -374,4 +374,13 @@ OBS: os nomes que passo como último parâmetro aqui eu defino lá no meu Artigo
 ##########################################################################################
 [EXIBINDO O MODAL DE DETALHE]
 
-Agora irei utilizar a mesma lógica do preenchimento do Editar, na sessão anterior. Primeiramente irei fazer o botão "detalhe" abrir um modal, o qual irei criar no index.blade.php. 
+Agora irei utilizar a mesma lógica do preenchimento do Editar, na sessão anterior. Primeiramente irei fazer o botão "detalhe" abrir um modal, o qual irei criar no index.blade.php, criando um painel com o título Detalhe e um parágrafo dentro. Agora, uso uma lógica semelhante à do "Editar" dentro de TabelaLista.vue para exibir o meu modal, com as devidas alterações, a qual marquei dentro de "DETALHE" na tag <!-- COM MODAL -->. Crio todas as opções de detalhe lá dentro, as quais eu deixei devidamente marcadas (pois eu literalmente acabei de limpar o código) e agora irei testar o meu modal no meu navegador. 
+
+Tendo isso concluído, irei trabalhar em exibir as informações dos meus artigos à partir do botão Detalhe. Pra fazer isso, irei utilizar a mesma lógica, utilizando o meu $store, que usei no input do Editar, atribuindo o valor "$store.state.item.titulo" para o título, e o "$store.state.item.descricao" para a descrição, dentro da ferramenta @{{}} (vou explicar o uso disso no próximo OBS). na página index.blade.php.
+
+Feito esse passo, vou ao meu navegador efetuar os meus testes no botão "Detalhe"
+
+OBS: geralmente eu usaria as chaves {{}} para passar a minha variável dinâmica dentro da minha descrição, mas o Laravel entenderia que eu estou requisitando um recurso do próprio Laravel, e não é isso que eu quero, portanto, utilizo um @ antes, pra ser identificado como um recurso Javascript, o que o deixa da seguinte forma: @{{$variável_aqui}}
+
+##########################################################################################
+[]

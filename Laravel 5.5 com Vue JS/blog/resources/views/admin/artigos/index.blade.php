@@ -85,10 +85,14 @@
             enctype="multipart/form-data"
             token="12345"
             >
+
+                {{-- TÍTULO --}}
                 <div class="form-group">
                     <label for="titulo">Título</label>
                     <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título">
                 </div>
+
+                {{-- DESCRIÇÃO --}}
                 <div class="form-group">
                     <label for="descricao">Descrição</label>
                     <input type="text" class="form-control" id="descricao" name="descricao" placeholder="Descrição">
@@ -126,6 +130,14 @@
             </formulario>
         </painel>
     </modal>
+
+{{-- ################################################################ Modal DETALHE ################################################################ --}}
+
+<modal nome="detalhe">
+    <painel v-bind:titulo="$store.state.item.titulo">
+        <p>@{{$store.state.item.descricao}}</p>
+    </painel>
+</modal>
 
 
 
