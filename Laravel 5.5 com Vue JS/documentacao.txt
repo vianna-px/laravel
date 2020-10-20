@@ -383,4 +383,11 @@ Feito esse passo, vou ao meu navegador efetuar os meus testes no botão "Detalhe
 OBS: geralmente eu usaria as chaves {{}} para passar a minha variável dinâmica dentro da minha descrição, mas o Laravel entenderia que eu estou requisitando um recurso do próprio Laravel, e não é isso que eu quero, portanto, utilizo um @ antes, pra ser identificado como um recurso Javascript, o que o deixa da seguinte forma: @{{$variável_aqui}}
 
 ##########################################################################################
-[]
+[MODIFICANDO O MODAL E A LÓGICA DA BUSCA]
+
+À essa altura do campeonato, percebi que há um bug no campo de busca, pois minhas buscas não estão sendo realizadas mais, além disso, irei alterar também o modal de exibição de "Detalhe". Começando pelo Modal, irei ao link abaixo e extraio o código marcado como <!-- Modal --> na sessão Live Demo:
+https://getbootstrap.com/docs/3.3/javascript/#modals-examples
+
+Copiado o meu novo modal, o colo dentro do arquivo /resources/assets/js/components/modal/Modal.vue, abaixo do meu antigo modal. Tornei o atributo "id" dinâmico e alterei inseri a variável "nome", a qual eu passo pelo meu props. Removo  o ID do título o atributo aria-labelledby da <div> maior desse modal. Passo um novo props chamado 'titulo' e insiro-o no título do meu modal. Adiciono o <slot> ao <body> e removo o botão "Save Changes" do modal, inserindo, no lugar, um slot para criar novos botões, caso necessário. Feito tudo isso, comento o meu antigo modal, deixando somente o meu novo.
+
+Agora, irei otimizar o meu index.blade.php. 

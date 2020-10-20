@@ -1,0 +1,27 @@
+SOBRE A TELA "LOGIN OU CADASTRE-SE"
+
+1. Estilização do campo "Nome Completo", no formulário de cadastro
+
+
+2. Campo CPF não está funcionando corretamente (função de validação não está sendo aplicada)
+
+
+3. Tornar mais confortável o posicionamento da tela de cadastro: localização dos campos "Registre-se com redes sociais ou crie sua conta" e o posicionamento do formulário(tá estranha e isso tá me incomodando de verdade)
+
+SUGESTÃO: Talvez alinhar os campos horizontalmente seja mais confortável pro UX.
+
+
+4. Ajustar o quadro que faz "switch" dos formulários pra ficar num campo fixo (é muito desconfortável ver esse painel crescendo e diminuindo ao trocar de formulário)
+
+SUGESTÃO: subdividir essa DIV que o conduz em 3 DIVs diferentes, as quais terão posições fixas. Se pá, resolver o tópico 3 vai resolver esse desconforto também.
+
+
+5. Outra coisa com o painel Switch: Independente se estou no formulário "Login" ou "Registre-se", o botão sempre tem escrito a palavra "Registre-se", isso não pode ocorrer, é necessário ser alterado o letreiro/botão de acordo com o formulário que está sendo exibido.
+
+SUGESTÃO: Usar do esquema de alteração de formulário (com o atributo hidden) para definir o que irá aparecer ou não, assim como o Sam fez com os formulários. 
+
+
+6. Talvez, alterar os ícones das redes sociais pra outras opções maiores irá ficar mais bonitinho no formulário de cadastro (a intenção era ser clean, mas se eu alinhar horizontalmente as duas opções de cadastro, irá ficar um espaço vago muito grande, e isso dá a impressão de algo mal pensado/mal desenvolvido).
+
+SUGESTÃO: Podem ser os icons do FontAwesome mesmo, só escolher outros maiores.
+

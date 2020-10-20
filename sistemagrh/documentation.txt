@@ -1,6 +1,12 @@
 This file will explain all the followed steps to create and install GRH Brasil system.
 Source: https://medium.com/@lalrinfela/laravel-with-quasar-spa-7b298024f106
 
+FOR ACCESSING MY PAGES, I NEED TO OPEN THE FOLLOWING IN BROWSER:
+http://localhost:8080/#/*page_name*
+
+TO RUN QUASAR APP:
+> quasar dev
+
 ########################################################################################################################################
 
 Step 1: Install Laravel using Composer
@@ -133,3 +139,6 @@ Another routes will be placed in: /src/router/routes.js
 
 ########################################################################################################################################
 
+[CREATING LOGIN PAGE]
+
+I create my Login.vue page in quasarapp/src/pages/Login.vue. Inside this file, I create my Login sctructure, with my template and script. Then, to render my icons, I enabled thein in quasar.conf.js, in the field "extras: " and route my Login page in /quasarapp/src/router/router.ts, to this page be called by the path /login in browser.
